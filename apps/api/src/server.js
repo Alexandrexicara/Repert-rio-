@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import pg from 'pg';
 const app=express(),{Pool}=pg,pool=new Pool({connectionString:process.env.DATABASE_URL,ssl:process.env.DATABASE_URL?.includes('localhost')?false:{rejectUnauthorized:false}}),port=Number(process.env.API_PORT||3333);
-app.use(helmet());app.use(cors({origin:(process.env.WEB_ORIGIN||'http://localhost:5173').split(','),credentials:true}));app.use(express.json({limit:'1mb'}));
+app.use(helmet());app.use(cors({origin:true,credentials:false}));app.use(express.json({limit:'1mb'}));
 const token=u=>jwt.sign({sub:u.id,email:u.email},process.env.JWT_SECRET,{expiresIn:'14d'});
 function auth(req,res,next){try{req.user=jwt.verify((req.headers.authorization||'').replace(/^Bearer\s+/i,''),process.env.JWT_SECRET);next()}catch{res.status(401).json({error:'Sessão inválida ou expirada.'})}}
 app.get('/health',(_,res)=>res.json({ok:true,service:'repertorio-api'}));
