@@ -1,4 +1,4 @@
-name: Build web and API
+name: Build web
 on:
   push:
     branches: [main]
@@ -12,6 +12,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
       - run: npm install
       - run: npm run build
